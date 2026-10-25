@@ -1,0 +1,3 @@
+platform: render
+app_name: mpd-django-example
+start_command: gunicorn config.wsgi:application
