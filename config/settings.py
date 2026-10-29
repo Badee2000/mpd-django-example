@@ -12,9 +12,17 @@ if not SECRET_KEY:
 DEBUG = os.environ.get("DJANGO_DEBUG") == "1"
 
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()]
-render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if render_host:
-    ALLOWED_HOSTS.append(render_host)
+# Hostnames the platforms provide. Render sets RENDER_EXTERNAL_HOSTNAME; Vercel sets
+# the VERCEL_* variables when "System Environment Variables" is enabled for the project.
+for platform_var in (
+    "RENDER_EXTERNAL_HOSTNAME",
+    "VERCEL_URL",
+    "VERCEL_BRANCH_URL",
+    "VERCEL_PROJECT_PRODUCTION_URL",
+):
+    platform_host = os.environ.get(platform_var)
+    if platform_host:
+        ALLOWED_HOSTS.append(platform_host)
 
 INSTALLED_APPS: list[str] = []
 
