@@ -1,3 +1,4 @@
 platform: render
 app_name: mpd-django-example
 start_command: gunicorn config.wsgi:application
+render_service_id: srv-dbm5dil6e07s73b72lt0
